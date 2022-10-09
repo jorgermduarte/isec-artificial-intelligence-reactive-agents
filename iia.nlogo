@@ -1,6 +1,56 @@
-
+breed[basics basic]
+breed[experts expert]
+turtles-own[EL]
+;Experience   (Blue- 83
+;EL: Energy Level ( Red- 15 )
+;Traps   ( Red Patches- 15 )
+;Gfood   ( Green Patches- 65)
+;Yfood   ( Yellow Patches- 45)
+;shelter ( Blue Patches- 95)
 
 to Setup
+  clear-all
+  Setup-patches
+  Setup-agents
+end
+
+to Go
+  ask turtles with [EL <=0] [die] ; Energy level reach zero , die.
+  if count turtles = 0 [stop]     ; Stops when agents reach zero
+end
+
+
+to Setup-patches
+  set-patch-size 15
+  ask patches with [pcolor = white]
+  [
+    ;traps
+    if random 101 < 5
+    [
+      set pcolor red
+    ]
+end
+
+to Setup-agents
+  create-basic Nbasic[ ; ?? syntax
+  set shape ""
+  set color
+  set size
+  while[[pcolor] of patch-here != white] ; spawn only on white
+
+  setxy random-pxcor random-pycor
+]
+  create-expert expert[ ; ?? syntax
+   set shape ""
+   set color
+   setxy random-pxcor random-pycor
+ ]
+
+  ask turtles
+[
+  set HP 100 ; default hp 100
+  set EXP 0 ; default exp 0
+  ]
 end
 @#$#@#$#@
 GRAPHICS-WINDOW

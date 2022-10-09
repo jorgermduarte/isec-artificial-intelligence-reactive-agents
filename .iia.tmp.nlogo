@@ -1,7 +1,4 @@
 
-
-to etup
-end
 @#$#@#$#@
 GRAPHICS-WINDOW
 210
