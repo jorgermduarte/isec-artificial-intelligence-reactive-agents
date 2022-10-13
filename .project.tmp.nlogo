@@ -161,7 +161,7 @@ to go; main tick function called in the interface
   ask turtles with [energy <= 0] [die] ; Energy level reach zero , die.
   if count turtles = 0 [stop]     ; Stops when agents reach zero
   tick
-  ;go ; uncomment this line to be recursive and dont interate the actions by click
+  ;go ; uncomment the go  to be recursive and dont interate the actions by click
 end
 
 
