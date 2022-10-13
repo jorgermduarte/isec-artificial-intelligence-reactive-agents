@@ -1,8 +1,9 @@
-breed[basics basic]
-breed[experts expert]
-turtles-own[EL]
-;Experience   (Blue- 83
-;EL: Energy Level ( Red- 15 )
+breed[basic nBasic]
+breed[expert nExpert]
+
+turtles-own[energy]
+;Experience   (Blue- 83)
+;energy ( Red- 15 )
 ;Traps   ( Red Patches- 15 )
 ;Gfood   ( Green Patches- 65)
 ;Yfood   ( Yellow Patches- 45)
@@ -11,52 +12,158 @@ turtles-own[EL]
 to Setup
   clear-all
   Setup-patches
-  Setup-agents
+  setup-turtles
+  reset-ticks
 end
 
 to Go
-  ask turtles with [EL <=0] [die] ; Energy level reach zero , die.
+  ask turtles with [energy <= 0] [die] ; Energy level reach zero , die.
   if count turtles = 0 [stop]     ; Stops when agents reach zero
 end
 
 
+;dentro do setup-patches , vamos chamar 4 procedimentos para
+;cel verdes , cel amarelas , cel vermelhas , cel azuis
+;pq as %'s vao ser configuráveis inicialmente pelo utilizador
+
 to Setup-patches
+  clear-all
   set-patch-size 15
-  ask patches with [pcolor = white]
-  [
+
+  ask patches with [pcolor = white][
+
     ;traps
     if random 101 < 5
     [
       set pcolor red
-    ]
+  ]]
 end
 
-to Setup-agents
-  create-basic Nbasic[ ; ?? syntax
-  set shape ""
-  set color
-  set size
-  while[[pcolor] of patch-here != white] ; spawn only on white
+to setup-turtles
 
-  setxy random-pxcor random-pycor
-]
-  create-expert expert[ ; ?? syntax
-   set shape ""
-   set color
-   setxy random-pxcor random-pycor
- ]
+  create-basic nBasic
+  [
+    set shape "star"
+    ;set color
+    set energy 100
 
-  ask turtles
-[
-  set HP 100 ; default hp 100
-  set EXP 0 ; default exp 0
+    setxy random-pxcor random-pycor
+    ;white [ pcolor != white]
+    ;[setxy random-pxcor random-pycor]
+
   ]
+
+  create-expert nExpert
+  [
+    set shape"target"
+    set color
+    set energy 100
+    setxy random-pxcor random-pycor
+    white [ pcolor != white]
+    [setxy random-pxcor random-pycor]
+  ]
+
 end
+
+to moveBasic ; Possible moves : fd 1 and right 90
+  ask basic
+  [
+    ifelse [pcolor] of patch-ahead 1 = yellow ;
+    [
+      fd 1
+      set energy energy - 1
+      set energy energy + 10
+      set pcolor black] ; yellow food vanish
+    [ifelse [pcolor] of patch-right-and-ahead 1 = yellow
+      [
+        right 90
+        set energy energy - 1
+        set energy energy + 10
+        set pcolor black] ;yellow food vanish
+    [
+      ifelse [pcolor] of patch-ahead 1 = red and energy >= 100 ; trap forward >= 100
+      [
+        set energy energy - 10 ; change to -10% , idk how
+        right 90
+        set energy energy - 1
+      ]
+      [ifelse [pcolor] of patch-ahead 1 = red and energy < 100 ; trap forward < 100
+        [
+          die]
+        [ifelse [pcolor] of patch-right-and-ahead 1 = red and energy >= 100 ; trap right >= 100
+          [
+            set energy energy - 10 ; change to -10% , idk how
+            right 90
+            set energy energy - 1
+          ]
+            [ifelse [pcolor] of patch-right-and-ahead 1 = red and energy < 100 ; trap right  < 100
+              [
+                die]
+
+        [ifelse [pcolor] of patch-ahead 1 = blue and any? expert-on patch-ahead 1 ; shelter and expert forward
+          [
+            set energy energy - 5 ; change to 5%
+            right 90
+            set energy energy - 1
+          ]
+          [ifelse [pcolor] of patch-ahead 1 = blue ; shelter forward
+            [
+              right 90
+              set energy energy - 1
+            [
+        ]
+            [ifelse [pcolor] of patch-right-and-ahead 1 = blue and any? expert-on patch-right-and-ahead 1
+                      [
+                        set energy energy - 5 ; change to 5%
+                        right 90
+                        set energy energy - 1
+                      ]
+                      [ifelse [pcolor] of patch-right-and-ahead 1
+                        [
+                          right 90
+                          set energy energy - 1
+  ]
+                        [ifelse any? expert-on patch-ahead 1 ;and experience expert < 50
+                          [
+                            let c one-of expert-on patch-ahead 1
+                            set energia energia + [energia] / 2 of c
+                            right 90
+                          ]
+                          [ifelse [pcolor] expert-on patch-ahead 1 ; and experience expert >= 50
+                            [
+                             let c one-of expert-on patch-ahead 1
+                             ;set expertenergy expertenergy -10%
+
+
+  ]
+  ]
+      ]
+    ]
+  ]
+
+
+end
+
+to moveExpert
+end
+
+to setGreenPatches
+end
+
+to setYellowPatches
+end
+
+to setTraps
+end
+
+to setShelters
+end
+
 @#$#@#$#@
 GRAPHICS-WINDOW
-210
+220
 10
-647
+657
 448
 -1
 -1
@@ -79,6 +186,70 @@ GRAPHICS-WINDOW
 1
 ticks
 30.0
+
+BUTTON
+8
+12
+72
+45
+Setup
+Setup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+95
+12
+158
+45
+Go
+Go
+T
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+SLIDER
+7
+59
+179
+92
+initial-number-basic
+initial-number-basic
+0
+50
+5.0
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+6
+102
+178
+135
+initial-number-expert
+initial-number-expert
+0
+50
+12.0
+1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
