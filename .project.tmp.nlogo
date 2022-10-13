@@ -55,14 +55,14 @@ to setup-patches-yellow-food
 end
 
 to setup-patches-red-trap
-  ask n-of ((trap-percentage / 100) * count patches ) patches with [ pcolor = 35 ] [ ; 35 porque é a color base do ambiente assim evita alterar outros patches que já deram spawn
+  ask n-of ((trap-percentage / 100) * count patches ) patches with [ pcolor = 35 ] [ ; 35 is the color of the ambient, this verification is to avoid changing patches and already have been defined as a foodor shelter
       set pcolor red
   ]
 end
 
 to setup-patches-blue-shelter
   let x 0
-  ask patches with [ pcolor = 35 ] [ ; 35 porque é a color base do ambiente assim evita alterar outros patches que já deram spawn
+  ask patches with [ pcolor = 35 ] [ ; 35 is the color of the ambient, this verification is to avoid changing patches and already have been defined as a trap or food
     if x < n-shelter
     [
       set pcolor blue
@@ -161,7 +161,7 @@ to go; main tick function called in the interface
   ask turtles with [energy <= 0] [die] ; Energy level reach zero , die.
   if count turtles = 0 [stop]     ; Stops when agents reach zero
   tick
-  ;go ; uncomment the go  to be recursive and dont interate the actions by click
+  ;go ; uncomment this line to be recursive and dont interate the actions by click
 end
 
 

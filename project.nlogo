@@ -43,26 +43,26 @@ end
 
 
 to setup-patches-green-food
-  ask n-of ((green-food-percentage / 100) * count patches ) patches with [ pcolor = 35 ] [ ; 35 porque é a color base do ambiente assim evita alterar outros patches que já deram spawn
+  ask n-of ((green-food-percentage / 100) * count patches ) patches with [ pcolor = 35 ] [ ; 35 is the color of the ambient, this verification is to avoid changing patches and already have been defined as a food, trap or shelter
       set pcolor green
   ]
 end
 
 to setup-patches-yellow-food
-  ask n-of ((yellow-food-percentage / 100) * count patches ) patches with [ pcolor = 35 ] [ ; 35 porque é a color base do ambiente assim evita alterar outros patches que já deram spawn
+  ask n-of ((yellow-food-percentage / 100) * count patches ) patches with [ pcolor = 35 ] [; 35 is the color of the ambient, this verification is to avoid changing patches and already have been defined as a food, trap or shelter
       set pcolor yellow
   ]
 end
 
 to setup-patches-red-trap
-  ask n-of ((trap-percentage / 100) * count patches ) patches with [ pcolor = 35 ] [ ; 35 porque é a color base do ambiente assim evita alterar outros patches que já deram spawn
+  ask n-of ((trap-percentage / 100) * count patches ) patches with [ pcolor = 35 ] [ ; 35 is the color of the ambient, this verification is to avoid changing patches and already have been defined as a food, trap or shelter
       set pcolor red
   ]
 end
 
 to setup-patches-blue-shelter
   let x 0
-  ask patches with [ pcolor = 35 ] [ ; 35 porque é a color base do ambiente assim evita alterar outros patches que já deram spawn
+  ask patches with [ pcolor = 35 ] [ ; 35 is the color of the ambient, this verification is to avoid changing patches and already have been defined as a food, trap or shelter
     if x < n-shelter
     [
       set pcolor blue
