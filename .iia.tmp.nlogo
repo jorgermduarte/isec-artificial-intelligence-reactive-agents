@@ -111,7 +111,7 @@ to moveBasic ; Possible moves : fd 1 and right 90
           [
             set energy energy * 5 / 100  ; change to 5%
             right 90
-            set energy energy - 1
+            set energy energy -
           ]
           [ifelse [pcolor] of patch-ahead 1 = blue ; shelter forward
             [
