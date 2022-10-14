@@ -5,11 +5,12 @@ turtles-own[energy]
 expert-agent-own[
   experience
   total-yellow-food-eaten
+  total-yellow-food-eaten-temp
   total-green-food-eaten
+  total-green-food-eaten-temp
   shelter-tick-count
   shelter-timeout
 ]
-
 
 ; ==================================
 ; setup procedures start here
@@ -29,6 +30,13 @@ end
 
 to setup-agent-expert
     create-expert-agent n-expert-agent[
+    set experience 0
+    set total-yellow-food-eaten 0
+    set total-yellow-food-eaten-temp 0
+    set total-green-food-eaten 0
+    set total-green-food-eaten-temp 0
+    set shelter-tick-count 0
+    set shelter-timeout 0
     set shape "butterfly"
     set color 85
     setxy random-pxcor random-pycor
@@ -122,14 +130,96 @@ to handle-expert-agent-shelter
   ; shelter occupied? cannot enter
 end
 
-to handle-expert-agent-food
+to-report handle-expert-agent-food
+  ; verify if the agent made a move
+  let action-available 1
+
+  ; main agent memory
+  let virtual-energy energy
+  let virtual-green-food-eaten total-green-food-eaten
+  let virtual-yellow-food-eaten total-yellow-food-eaten
+
+  ; memory used to count the food eaten to give experience to the agent
+  let virtual-total-yellow-food-eaten-temp total-yellow-food-eaten-temp
+  let virtual-total-green-food-eaten-temp total-green-food-eaten-temp
 
   ; is food in the agent position? eat it
+  ask patch-here[
+    (
+      ifelse
+      pcolor = green [
+        set virtual-energy virtual-energy + 10
+        set virtual-green-food-eaten virtual-green-food-eaten + 1
+        set virtual-total-green-food-eaten-temp virtual-total-green-food-eaten-temp + 1
+        set pcolor black
+        set action-available 0
+      ]
+      pcolor = yellow [
+        set virtual-energy virtual-energy + 5
+        set virtual-yellow-food-eaten virtual-yellow-food-eaten  + 1
+        set virtual-total-yellow-food-eaten-temp virtual-total-yellow-food-eaten-temp  + 1
+        set pcolor black
+        set action-available 0
+      ]
+    )
+  ]
 
-  ; if the agent perceived a green food and eaten it, he receives 10 energy and adds total-green-food-eaten + 1
-  ; if the agent perceived a yellow food and eaten it, he receives 5 energy and adds total-yellow-food-eaten + 1
-  ; for each 10 yellow food eaten, the agent receives 1 experience
-  ; for each 10 green food eaten, the agent receives 2 experience
+  ; update agent memory
+  set energy virtual-energy
+  set total-green-food-eaten virtual-green-food-eaten
+  set total-yellow-food-eaten virtual-yellow-food-eaten
+
+  ; verify if we need to give experince to the agent
+  (
+    ifelse
+    total-green-food-eaten-temp = 10 [
+      set experience experience + 2
+      set total-green-food-eaten-temp 0
+    ]
+    total-yellow-food-eaten-temp = 10 [
+      set experience experience + 1
+      set total-yellow-food-eaten-temp 0
+    ]
+  )
+
+  if action-available = 0 [
+    report nobody
+  ]
+
+  ; if the agent is available for a move perceive foward left and right
+  if [pcolor] of patch-ahead 1 = green [
+    fd 1
+    report nobody
+  ]
+
+  if [pcolor] of patch-ahead 1 = yellow [
+    fd 1
+    report nobody
+  ]
+
+  if [pcolor] of patch-left-and-ahead 90 1 = yellow [
+    rt -90
+    report nobody
+  ]
+
+  if [pcolor] of patch-left-and-ahead 90 1 = green [
+    rt -90
+    report nobody
+  ]
+
+  if [pcolor] of patch-right-and-ahead 90 1 = yellow [
+    rt 90
+    report nobody
+  ]
+
+  if [pcolor] of patch-right-and-ahead 90 1 = green [
+    rt 90
+    report nobody
+  ]
+
+  ; if there isnt any action move foward
+  fd 1
+  report nobody
 end
 
 to handle-expert-agent-interaction
@@ -146,10 +236,8 @@ to handle-expert-agent
     ; action = energy -1
     handle-expert-agent-trap
     handle-expert-agent-interaction
-    handle-expert-agent-food
     handle-expert-agent-shelter
-
-    forward 1
+    let action-food handle-expert-agent-food
     set energy energy - 1
   ]
 end
@@ -161,7 +249,7 @@ to go; main tick function called in the interface
   ask turtles with [energy <= 0] [die] ; Energy level reach zero , die.
   if count turtles = 0 [stop]     ; Stops when agents reach zero
   tick
-  ;go ; uncomment this line to be recursive and dont interate the actions by click
+  go ; uncomment this line to be recursive and dont interate the actions by click
 end
 
 
