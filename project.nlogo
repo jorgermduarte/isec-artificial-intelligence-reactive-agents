@@ -9,7 +9,6 @@ expert-agent-own[
   total-green-food-eaten
   total-green-food-eaten-temp
   shelter-tick-count
-  shelter-timeout
 ]
 
 ; ==================================
@@ -17,7 +16,7 @@ expert-agent-own[
 ; ==================================
 to setup-agent-generic ; procedure that shares properties among the turtles/agents
   set energy 100
-  show energy
+  show "my current energy is 100"
 end
 
 to setup-agent-basic
@@ -36,7 +35,6 @@ to setup-agent-expert
     set total-green-food-eaten 0
     set total-green-food-eaten-temp 0
     set shelter-tick-count 0
-    set shelter-timeout 0
     set shape "butterfly"
     set color 85
     setxy random-pxcor random-pycor
@@ -90,7 +88,12 @@ to setup-patches ; main procedure that initializes the patches
 end
 
 to setup
+  print "----------------------------"
+  print " -------- new game -------- "
+  print "----------------------------"
+
   clear-all
+  clear-output
   reset-ticks
   setup-agents
   setup-patches
@@ -115,19 +118,241 @@ end
 
 
 ;  --------start of expert agent actions -------
-
-to handle-expert-agent-trap
-  ; the agent have perceived a trap?
-  ; if the experience > 50 does not take damage
-  ; if experience < 50 units and energy >= 100 units it takes 10% damage
-  ; if experience < 50 units and energy < 100 units the agent dies
+to handle-expert-agent-interaction
+  ; does the agent perceived a basic agent? (only one)
+  ; kill him
+  ; get half of his energy
 end
 
-to handle-expert-agent-shelter
+to-report handle-expert-agent-trap
+  ; the agent have perceived a trap ahead?
+  let virtual-agent-should-die 0
+  let action-executed 0
+
+  if [pcolor] of patch-ahead 1 = red [
+    ; if the experience > 50 does not take damage
+    if experience >= 50 [
+      rt 90 ; rotate to right ignoring the trap
+      set action-executed 1
+      show "im imune to trap ahead because i have more than 50 exp - just avoiding it"
+    ]
+
+    if experience < 50 [
+      (ifelse
+        ; if experience < 50 units and energy >= 100 units it takes 10% damage
+        energy >= 100 [
+          let virtual-energy-taken energy * 0.10
+          set energy energy - virtual-energy-taken
+          rt 90; rotate to right ignoring the trap
+          set action-executed 1
+        ]
+        ; if experience < 50 units and energy < 100 units the agent dies
+        energy < 100 [
+          show "im dying from a trap ahead"
+          set virtual-agent-should-die 1
+        ]
+      )
+    ]
+  ]
+
+  ; verification if the agent perceived a trap in the patch-ahead
+  if virtual-agent-should-die = 1 [report 2]
+  if action-executed = 1 [ report 1]
+
+  ; the agent have perceived a trap on the left?
+  if [pcolor] of patch-left-and-ahead 90 1 = red [
+    ; if the experience > 50 does not take damage
+    if experience >= 50 [
+      rt 90 ; rotate to right ignoring the trap
+      set action-executed 1
+      show "im imune to trap on the left because i have more than 50 exp - just avoiding it"
+    ]
+
+    if experience < 50 [
+      (ifelse
+        ; if experience < 50 units and energy >= 100 units it takes 10% damage
+        energy >= 100 [
+          let virtual-energy-taken energy * 0.10
+          set energy energy - virtual-energy-taken
+          rt 90; rotate to right ignoring the trap
+          set action-executed 1
+        ]
+        ; if experience < 50 units and energy < 100 units the agent dies
+        energy < 100 [
+          show "im dying from a trap on the left"
+          set virtual-agent-should-die 1
+        ]
+      )
+    ]
+  ]
+
+  ; verification if the agent perceived a trap in the patch-left-and-ahead
+  if virtual-agent-should-die = 1 [report 2]
+  if action-executed = 1 [report 1]
+
+  ; the agent have perceived a trap on the right?
+  if [pcolor] of patch-right-and-ahead 90 1 = red [
+    ; if the experience > 50 does not take damage
+    if experience >= 50 [
+      rt -90 ; rotate to left ignoring the trap on the right
+      set action-executed 1
+      show "im imune to trap on the right because i have more than 50 exp - just avoiding it"
+    ]
+
+    if experience < 50 [
+      (ifelse
+        ; if experience < 50 units and energy >= 100 units it takes 10% damage
+        energy >= 100 [
+          let virtual-energy-taken energy * 0.10
+          set energy energy - virtual-energy-taken
+          rt -90; rotate to left ignoring the trap
+          set action-executed 1
+        ]
+        ; if experience < 50 units and energy < 100 units the agent dies
+        energy < 100 [
+          show "im dying from a trap on the right"
+          set virtual-agent-should-die 1
+        ]
+      )
+    ]
+  ]
+
+  ; verification if the agent perceived a trap in the patch-left-and-ahead
+  if virtual-agent-should-die = 1 [report 2]
+  if action-executed = 1 [report 1]
+
+  report 0
+end
+
+to-report handle-expert-agent-shelter
+
+  let action-executed 0
+
   ; does the agent perceives a shelter? is a shelter in my current position? is it occupied?
-  ; max shelter ticks = 10
-  ; shelter entrance rule = (energy < 500  && experience < 25 )? true: false
-  ; shelter occupied? cannot enter
+  let agent-in-shelter 0
+  let agent-receive-rewards 0
+
+  ask patch-here[
+    if pcolor = blue [
+      set agent-in-shelter 1
+    ]
+  ]
+
+  if agent-in-shelter = 1[
+    set shelter-tick-count shelter-tick-count + 1
+  ]
+
+  if shelter-tick-count >= 10 [
+    set agent-receive-rewards 1
+  ]
+
+  if agent-in-shelter = 1 [
+
+    if agent-receive-rewards = 1 [
+      set energy energy + 500
+      set experience experience + 25
+      set shelter-tick-count 0
+      show "leaving the shelter after 10 ticks and received rewards"
+      fd 1; move foward
+      report 1 ; one because the agent needs to leave the shelter immediatly
+    ]
+
+    set shelter-tick-count shelter-tick-count + 1
+    report 1 ; stay in shelter until tick-count reaches 10
+  ]
+
+  ; if the agent is not in the shelter, verify if he perceives one
+  if [pcolor] of patch-ahead 1 = blue [
+    ; shelter occupied? cannot enter  (report 1 avoid it )
+    let shelter-occupied 1
+
+    if count expert-agent-on patch-ahead 1 = 0 [
+      set shelter-occupied 0
+    ]
+
+    if shelter-occupied = 1 [
+      rt -90 ; ignore the shelter since is occupied
+      report 1 ;avoiding the shelter
+    ]
+
+    if shelter-occupied = 0 [
+      ; verify conditions to enter
+      ; shelter entrance rule = (energy < 500  && experience < 25 )? true: false
+      if energy < 500 and experience < 25 [
+        fd 1 ; go to the shelter
+        report 1; move to the shelter
+      ]
+
+      if energy >= 500 or experience >= 25 [
+        show "i have more energy or experience that is allowed to enter in the shelter - avoiding :("
+        rt -90; ignoring the shelter
+        report 1
+      ]
+    ]
+
+  ]
+
+  if [pcolor] of patch-left-and-ahead 90 1 = blue [
+    ; shelter occupied? cannot enter  (report 1 avoid it )
+    let shelter-occupied 1
+
+    if count expert-agent-on patch-left-and-ahead 90 1 = 0 [
+      set shelter-occupied 0
+    ]
+
+    if shelter-occupied = 1 [
+      fd 1; ignore the shelter since is occupied
+      report 1 ;avoiding the shelter
+    ]
+
+    if shelter-occupied = 0 [
+      ; verify conditions to enter
+      ; shelter entrance rule = (energy < 500  && experience < 25 )? true: false
+      if energy < 500 and experience < 25 [
+        rt -90 ; go to the shelter
+        report 1
+      ]
+
+      if energy >= 500 or experience >= 25 [
+        show "i have more energy or experience that is allowed to enter in the shelter on the left - avoiding :("
+        fd 1; ignoring the shelter
+        report 1
+      ]
+    ]
+
+  ]
+
+    if [pcolor] of patch-right-and-ahead 90 1 = blue [
+    ; shelter occupied? cannot enter  (report 1 avoid it )
+    let shelter-occupied 1
+
+    if count expert-agent-on patch-right-and-ahead 90 1 = 0 [
+      set shelter-occupied 0
+    ]
+
+    if shelter-occupied = 1 [
+      fd 1; ignore the shelter since is occupied
+      report 1 ;avoiding the shelter
+    ]
+
+    if shelter-occupied = 0 [
+      ; verify conditions to enter
+      ; shelter entrance rule = (energy < 500  && experience < 25 )? true: false
+      if energy < 500 and experience < 25 [
+        rt 90 ; go to the shelter
+        report 1
+      ]
+
+      if energy >= 500 or experience >= 25 [
+        show "i have more energy or experience that is allowed to enter in the shelter on the right - avoiding :("
+        fd 1; ignoring the shelter
+        report 1
+      ]
+    ]
+
+  ]
+
+  report 0; the agent isnt in any shelter and didnt perceived one
 end
 
 to-report handle-expert-agent-food
@@ -217,27 +442,46 @@ to-report handle-expert-agent-food
     report nobody
   ]
 
-  ; if there isnt any action move foward
+  ; if there isnt any perception on foward, left and right move foward
   fd 1
   report nobody
-end
-
-to handle-expert-agent-interaction
-  ; does the agent perceived a basic agent? (only one)
-  ; kill him
-  ; get half of his energy
 end
 
 to handle-expert-agent
   ask expert-agent
   [
+    let action-available 1
+
     ; perception foward, left and right (shelters,food,traps and agents)
     ; actions: foward, rotate 90 right or rotate 90 left
     ; action = energy -1
-    handle-expert-agent-trap
+
+
     handle-expert-agent-interaction
-    handle-expert-agent-shelter
-    let action-food handle-expert-agent-food
+
+    ; trap action logic
+    let action-trap handle-expert-agent-trap
+    if action-trap = 1 [
+      set action-available 0
+    ]
+    if action-trap = 2 [
+      set action-available 0
+      die
+    ]
+
+    ; verify if the agent have a action available to verify the shelter
+    if action-available = 1 [
+      let action-shelter handle-expert-agent-shelter
+      if action-shelter = 1 [
+        set action-available 0
+      ]
+    ]
+
+    ; verify if there's any action available to eat food
+    if action-available = 1 [
+      let action-food handle-expert-agent-food
+    ]
+
     set energy energy - 1
   ]
 end
@@ -246,7 +490,10 @@ to go; main tick function called in the interface
   handle-basic-agent
   handle-expert-agent
 
-  ask turtles with [energy <= 0] [die] ; Energy level reach zero , die.
+  ask turtles with [energy <= 0] [
+    show "i died because i run out of energy :("
+    die
+  ] ; Energy level reach zero , die.
   if count turtles = 0 [stop]     ; Stops when agents reach zero
   tick
   go ; uncomment this line to be recursive and dont interate the actions by click
@@ -310,7 +557,7 @@ n-basic-agent
 n-basic-agent
 0
 50
-4.0
+0.0
 1
 1
 NIL
@@ -340,7 +587,7 @@ green-food-percentage
 green-food-percentage
 0
 15
-3.0
+15.0
 1
 1
 NIL
@@ -355,7 +602,7 @@ yellow-food-percentage
 yellow-food-percentage
 0
 5
-2.4
+5.0
 0.1
 1
 NIL
@@ -385,7 +632,7 @@ trap-percentage
 trap-percentage
 0
 2
-1.0
+0.4
 0.1
 1
 NIL
