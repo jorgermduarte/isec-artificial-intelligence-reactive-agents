@@ -759,6 +759,7 @@ to handle-expert-agent
   ]
 end
 
+
 to go; main tick function called in the interface
   handle-basic-agent
   handle-expert-agent
@@ -798,8 +799,8 @@ GRAPHICS-WINDOW
 16
 -16
 16
-1
-1
+0
+0
 1
 ticks
 30.0
@@ -845,7 +846,7 @@ n-expert-agent
 n-expert-agent
 0
 100
-0.0
+5.0
 1
 1
 NIL
@@ -898,9 +899,9 @@ HORIZONTAL
 
 SLIDER
 203
-82
+83
 442
-115
+116
 trap-percentage
 trap-percentage
 0
@@ -1293,6 +1294,33 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="simple-first-experiment" repetitions="10" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="6"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0.4"/>
+    </enumeratedValueSet>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default
