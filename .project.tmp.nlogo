@@ -136,6 +136,7 @@ to-report handle-expert-agent-interaction
 
 
   if count basic-agent-on patch-left-and-ahead 90 1 > 0 [
+
    ; get only one basic-agent to target
     ask one-of basic-agent-on patch-left-and-ahead 90 1 [
       ; get half of his energy
@@ -159,14 +160,11 @@ to-report handle-expert-agent-interaction
   (
     ifelse
     energy-stealed > 0 [
-
       set energy energy + energy-stealed
-
       ;show "my current energy is : "
-      show energy
-
-      show " i stealed "
-      show energy-stealed
+      ;show energy
+      ;show " i stealed "
+      ;show energy-stealed
       report 1
     ]
     energy-stealed <= 0 [

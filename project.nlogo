@@ -136,23 +136,27 @@ to-report handle-expert-agent-interaction
 
 
   if count basic-agent-on patch-left-and-ahead 90 1 > 0 [
-   ; get only one basic-agent to target
-    ask one-of basic-agent-on patch-left-and-ahead 90 1 [
-      ; get half of his energy
-      set energy-stealed energy * 0.5
-      ; kill him
-      die
+    if energy-stealed = 0 [
+      ; get only one basic-agent to target
+      ask one-of basic-agent-on patch-left-and-ahead 90 1 [
+        ; get half of his energy
+        set energy-stealed energy * 0.5
+        ; kill him
+        die
+      ]
     ]
   ]
 
 
   if count basic-agent-on patch-right-and-ahead 90 1  > 0 [
+    if energy-stealed = 0 [
    ; get only one basic-agent to target
     ask one-of basic-agent-on patch-right-and-ahead 90 1 [
       ; get half of his energy
       set energy-stealed energy * 0.5
       ; kill him
       die
+    ]
     ]
   ]
 
