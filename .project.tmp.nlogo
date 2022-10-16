@@ -1,5 +1,5 @@
-breed [basic-agent bagent]
-breed [expert-agent eagent]
+breed [basic-agent basicagent]
+breed [expert-agent expertagent]
 turtles-own[energy]
 
 expert-agent-own[
@@ -118,6 +118,63 @@ end
 
 
 ;  --------start of expert agent actions -------
+to-report handle-expert-agent-interaction
+  ; does the agent perceived a basic agent? (only one)
+
+  let energy-stealed 0
+
+
+  if count basic-agent-on patch-ahead 1 > 0 [
+   ; get only one basic-agent to target
+    ask one-of basic-agent-on patch-ahead 1 [
+      ; get half of his energy
+      set energy-stealed energy * 0.5
+      ; kill him
+      die
+    ]
+  ]
+
+
+  if count basic-agent-on patch-left-and-ahead 90 1 > 0 [
+   ; get only one basic-agent to target
+    ask one-of basic-agent-on patch-left-and-ahead 90 1 [
+      ; get half of his energy
+      set energy-stealed energy * 0.5
+      ; kill him
+      die
+    ]
+  ]
+
+
+  if count basic-agent-on patch-right-and-ahead 90 1  > 0 [
+   ; get only one basic-agent to target
+    ask one-of basic-agent-on patch-right-and-ahead 90 1 [
+      ; get half of his energy
+      set energy-stealed energy * 0.5
+      ; kill him
+      die
+    ]
+  ]
+
+  (
+    ifelse
+    energy-stealed > 0 [
+
+      set energy energy + energy-stealed
+
+      ;show "my current energy is : "
+      show energy
+
+      show " i stealed "
+      show energy-stealed
+      report 1
+    ]
+    energy-stealed <= 0 [
+      report 0
+    ]
+  )
+
+end
 
 to-report handle-expert-agent-trap
   ; the agent have perceived a trap ahead?
@@ -452,7 +509,7 @@ to handle-expert-agent
     ; action = energy -1
 
 
-    handle-expert-agent-interaction
+    let action-agent-interaction handle-expert-agent-interaction
 
     ; trap action logic
     let action-trap handle-expert-agent-trap
@@ -552,7 +609,7 @@ n-basic-agent
 n-basic-agent
 0
 50
-0.0
+15.0
 1
 1
 NIL

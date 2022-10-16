@@ -120,6 +120,21 @@ end
 ;  --------start of expert agent actions -------
 to handle-expert-agent-interaction
   ; does the agent perceived a basic agent? (only one)
+  (
+    ifelse
+    count basic-agent-on patch-ahead 1 = 0 [
+      report 0
+    ]
+    count basic-agent-on patch-left-and-ahead 1 = 0 [
+      report 0
+    ]
+    count basic-agent-on patch-right-and-ahead 1 = 0 [
+      report 0
+    ]
+  )
+
+
+   if
   ; kill him
   ; get half of his energy
 end
