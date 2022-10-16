@@ -770,7 +770,7 @@ to go; main tick function called in the interface
   ] ; Energy level reach zero , die.
   if count turtles = 0 [stop]     ; Stops when agents reach zero
   tick
-  go ; uncomment this line to be recursive and dont interate the actions by click
+  ;go ; uncomment this line to be recursive and dont interate the actions by click
 end
 
 
@@ -831,7 +831,7 @@ n-basic-agent
 n-basic-agent
 0
 50
-20.0
+10.0
 1
 1
 NIL
@@ -846,7 +846,7 @@ n-expert-agent
 n-expert-agent
 0
 100
-10.0
+0.0
 1
 1
 NIL
