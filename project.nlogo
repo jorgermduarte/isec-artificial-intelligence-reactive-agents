@@ -108,10 +108,184 @@ end
 ; ==================================
 
 ; -------  start of basic agent actions -------
+
+to-report handle-basic-agent-interaction
+  report nobody
+end
+
+to-report handle-basic-agent-food ; reactive agent without memory
+
+  let action-available 1 ; agent can move
+  let virtual-energy energy
+  let virtual-agent-eaten-food 0
+  ask patch-here[
+    (
+      if pcolor = yellow [
+        set pcolor black
+        set virtual-agent-eaten-food 1
+      ]
+      )
+  ]
+  if virtual-agent-eaten-food = 1[
+    set energy energy + 10
+    report 1
+  ]
+
+  if [pcolor] of patch-ahead 1 = yellow[
+    fd 1
+    report nobody
+  ]
+
+  if [pcolor] of patch-right-and-ahead 90 1 = yellow[
+    rt 90
+    report nobody
+  ]
+
+    ;if there isnt any move for food
+    fd 1
+    report nobody
+
+end
+
+to-report handle-basic-agent-trap
+  ; the agent have perceived a trap?
+  ; if the energy < 100 agent dies
+  ; if the energy > 100 agent takes 10% damage
+
+  let virtual-basic-agent-should-die 0
+  let action-basic-executed 0
+
+  ;if the agent is availabe for a move
+  if [pcolor] of patch-ahead 1 = red [
+    if energy < 100[
+    set virtual-basic-agent-should-die 1
+  ]
+    if energy >= 100[
+      let virtual-basic-energy-taken energy * 0.10
+      set energy energy - virtual-basic-energy-taken
+      rt 90
+      set action-basic-executed 1
+    ]
+  ]
+
+  ; verification if the agente perceived any trap patch-ahead
+  if virtual-basic-agent-should-die = 1 [report 2]; make it die
+  if action-basic-executed = 1 [report 1] ; make it took energy
+
+  ;the agent have perceived a trap on the right?
+    if [pcolor] of patch-right-and-ahead 90 1 = red[
+      if energy < 100[
+        set virtual-basic-agent-should-die 1
+      ]
+      if energy >= 100[
+        let virtual-basic-energy-taken energy * 0.10
+        set energy energy - virtual-basic-energy-taken
+        rt 90
+        set action-basic-executed 1
+      ]
+  ]
+
+    if virtual-basic-agent-should-die = 1 [report 2]
+    if action-basic-executed = 1 [report 1]
+
+    report 0
+end
+
+to-report handle-basic-agent-shelter
+
+  let action-basic-executed  0
+
+  if [pcolor] of patch-ahead 1 = blue [
+    let shelter-occupied 1
+
+    if count expert-agent-on patch-ahead 1 = 0 [
+      set shelter-occupied 0
+    ]
+    if shelter-occupied = 1 [
+
+      ;if is expert on it , lose 5% energy
+      let virtual-basic-energy-taken energy * 0.05
+      set energy energy - virtual-basic-energy-taken
+      rt 90
+      set action-basic-executed 1
+
+      report 1
+    ]
+    if shelter-occupied = 0 [
+      ;if is empty , move away
+      rt 90
+      set action-basic-executed 1
+    ]
+  ]
+
+  if [pcolor] of patch-right-and-ahead 90 1 = blue [
+    let shelter-occupied 1
+
+    if count expert-agent-on patch-right-and-ahead 90 1 = 0 [
+      set shelter-occupied 0
+    ]
+    if shelter-occupied = 1 [
+
+      ;if is expert on it , lose 5% energy
+      let virtual-basic-energy-taken energy * 0.05
+      set energy energy - virtual-basic-energy-taken
+      rt 90
+      set action-basic-executed 1
+      report 1
+    ]
+    if shelter-occupied = 0 [
+      ;if is empty , move away
+      rt 90
+      set action-basic-executed 1
+    ]
+  ]
+
+  (
+    ifelse
+    action-basic-executed = 1 [
+      report 1
+    ]
+    action-basic-executed = 0 [
+      report 0
+    ]
+   )
+
+end
+
+
 to handle-basic-agent
   ask basic-agent
   [
-    forward 1
+    let action-available 1
+    ; perception foward and right (shelters,food,traps and agents)
+    ; actions: foward, rotate 90 right
+    ; action = energy -1
+
+    let action-agent-interaction handle-basic-agent-interaction
+
+    ; trap action logic
+    let action-trap handle-basic-agent-trap
+    if action-trap = 1 [
+      set action-available 0
+    ]
+    if action-trap = 2 [
+      set action-available 0
+      die
+    ]
+
+    ; verify if the agent have a action available to verify the shelter
+    if action-available = 1 [
+      let action-shelter handle-basic-agent-shelter
+      if action-shelter = 1 [
+        set action-available 0
+      ]
+    ]
+
+    ; verify if there's any action available to eat food
+    if action-available = 1 [
+      let action-food handle-basic-agent-food
+    ]
+
     set energy energy - 1
   ]
 end
@@ -150,13 +324,13 @@ to-report handle-expert-agent-interaction
 
   if count basic-agent-on patch-right-and-ahead 90 1  > 0 [
     if energy-stealed = 0 [
-   ; get only one basic-agent to target
-    ask one-of basic-agent-on patch-right-and-ahead 90 1 [
-      ; get half of his energy
-      set energy-stealed energy * 0.5
-      ; kill him
-      die
-    ]
+      ; get only one basic-agent to target
+      ask one-of basic-agent-on patch-right-and-ahead 90 1 [
+        ; get half of his energy
+        set energy-stealed energy * 0.5
+        ; kill him
+        die
+      ]
     ]
   ]
 
