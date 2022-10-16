@@ -91,7 +91,6 @@ to setup
   print "----------------------------"
   print " -------- new game -------- "
   print "----------------------------"
-
   clear-all
   clear-output
   reset-ticks
@@ -109,8 +108,57 @@ end
 
 ; -------  start of basic agent actions -------
 
+
 to-report handle-basic-agent-interaction
-  report nobody
+
+  let energy-stealed 0
+  let energy-losted 0
+
+  if count expert-agent-on patch-ahead 1 > 0 [
+    ask one-of expert-agent-on patch-ahead 1[
+      if experience < 50[
+        set energy-stealed energy * 0.5
+        set energy energy - energy-stealed
+
+
+      ]
+      if experience >= 50[
+        set energy-losted energy * 0.1
+
+      ]
+      if energy-stealed > 0[
+        set energy energy + energy-stealed
+      ]
+      if energy-losted > 0[
+        set energy energy - energy-losted
+      ]
+    ]
+  ]
+
+  if count expert-agent-on patch-right-and-ahead 90 1 > 0 [
+    ask one-of expert-agent-on patch-right-and-ahead 90 1[
+      if experience < 50[
+        set energy-stealed energy * 0.5
+        set energy energy - energy-stealed
+
+
+      ]
+      if experience >= 50[
+        set energy-losted energy * 0.1
+
+      ]
+      if energy-stealed > 0[
+        set energy energy + energy-stealed
+      ]
+      if energy-losted > 0[
+        set energy energy - energy-losted
+      ]
+    ]
+  ]
+
+  ; drain/lost energy count as movement/interaction?
+
+  report 0
 end
 
 to-report handle-basic-agent-food ; reactive agent without memory
@@ -721,7 +769,7 @@ to go; main tick function called in the interface
   ] ; Energy level reach zero , die.
   if count turtles = 0 [stop]     ; Stops when agents reach zero
   tick
-  go ; uncomment this line to be recursive and dont interate the actions by click
+  ;go ; uncomment this line to be recursive and dont interate the actions by click
 end
 
 
@@ -797,7 +845,7 @@ n-expert-agent
 n-expert-agent
 0
 100
-10.0
+0.0
 1
 1
 NIL
@@ -812,7 +860,7 @@ green-food-percentage
 green-food-percentage
 0
 15
-15.0
+5.0
 1
 1
 NIL
