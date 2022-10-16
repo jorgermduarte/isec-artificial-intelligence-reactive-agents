@@ -208,8 +208,6 @@ to-report handle-basic-agent-shelter
       set energy energy - virtual-basic-energy-taken
       rt 90
       set action-basic-executed 1
-
-      report 1
     ]
     if shelter-occupied = 0 [
       ;if is empty , move away
@@ -218,25 +216,26 @@ to-report handle-basic-agent-shelter
     ]
   ]
 
-  if [pcolor] of patch-right-and-ahead 90 1 = blue [
-    let shelter-occupied 1
+  if action-basic-executed = 0 [
+    if [pcolor] of patch-right-and-ahead 90 1 = blue [
+      let shelter-occupied 1
 
-    if count expert-agent-on patch-right-and-ahead 90 1 = 0 [
-      set shelter-occupied 0
-    ]
-    if shelter-occupied = 1 [
+      if count expert-agent-on patch-right-and-ahead 90 1 = 0 [
+        set shelter-occupied 0
+      ]
+      if shelter-occupied = 1 [
 
-      ;if is expert on it , lose 5% energy
-      let virtual-basic-energy-taken energy * 0.05
-      set energy energy - virtual-basic-energy-taken
-      rt 90
-      set action-basic-executed 1
-      report 1
-    ]
-    if shelter-occupied = 0 [
-      ;if is empty , move away
-      rt 90
-      set action-basic-executed 1
+        ;if is expert on it , lose 5% energy
+        let virtual-basic-energy-taken energy * 0.05
+        set energy energy - virtual-basic-energy-taken
+        rt 90
+        set action-basic-executed 1
+      ]
+      if shelter-occupied = 0 [
+        ;if is empty , move away
+        rt 90
+        set action-basic-executed 1
+      ]
     ]
   ]
 
@@ -251,7 +250,6 @@ to-report handle-basic-agent-shelter
    )
 
 end
-
 
 to handle-basic-agent
   ask basic-agent
@@ -784,7 +782,7 @@ n-basic-agent
 n-basic-agent
 0
 50
-15.0
+10.0
 1
 1
 NIL
@@ -799,7 +797,7 @@ n-expert-agent
 n-expert-agent
 0
 100
-4.0
+10.0
 1
 1
 NIL
