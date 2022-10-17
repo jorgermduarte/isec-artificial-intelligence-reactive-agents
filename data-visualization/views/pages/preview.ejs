@@ -1,0 +1,214 @@
+<%- contentFor('leftContent') %>
+
+
+<h3 style="text-align: center;">Experiments Variables</h3>
+
+<div id="experiment-data-properties" style="padding:20px;">
+    <div class="row">
+        <div class="col-md-6" style="font-weight: bold;">
+            <p>Green food percentage: </p>
+            <p>Yellow food percentage: </p>
+            <p>Trap percentage: </p>
+            <p>Number of shelters: </p>
+            <p>Number of basic agents: </p>
+            <p>Number of expert agents: </p>
+        </div>
+        <div class="col-md-6">
+            <p id="green-food-percentage"> </p>
+            <p id="yellow-food-percentage"> </p>
+            <p id="trap-percentage"> </p>
+            <p id="n-shelters"></p>
+            <p id="n-basic-agents"> </p>
+            <p id="expert-basic-agents"> </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const received = <%-data.experiment %>;
+    let props = received["1"][0];
+    props["total-experiments"] = Object.keys(received).filter ( e => !isNaN(e)).length;
+
+    document.getElementById('green-food-percentage').innerHTML = props["green-food-percentage"];
+    document.getElementById('yellow-food-percentage').innerHTML = props["yellow-food-percentage"];
+    document.getElementById('trap-percentage').innerHTML = props["trap-percentage"];
+    document.getElementById('n-shelters').innerHTML = props["n-shelter"];
+    document.getElementById('n-basic-agents').innerHTML = props["n-basic-agent"];
+    document.getElementById('expert-basic-agents').innerHTML = props["n-expert-agent"];
+
+</script>
+
+
+<%-contentFor('body')%>
+
+<h3>Experiments Visualization</h3>
+
+<div class="row" id="graphs-area">
+</div>
+
+
+<script>
+
+
+const displayGraphs = () => {
+
+    Object.keys(received).forEach (  (run, index) => {
+
+        if(index < 10){
+
+        const newCanvas = document.createElement('canvas');
+        newCanvas.id = `graph-${index}`;
+        newCanvas.width = "100%";
+        newCanvas.height = "100%";
+        
+        const newDiv = document.createElement("div");
+        newDiv.className = "col-md-4";
+
+        newDiv.appendChild(newCanvas);
+        document.getElementById('graphs-area').appendChild(newDiv);
+
+
+
+        const labels = received[run].map( e => e["[step]"])
+        const basicAgents = received[run].map( e  => e["count basic-agent"]);
+        const expertAgents = received[run].map( e  => e["count expert-agent"]);
+        const data = {
+        labels: labels,
+        datasets: [{
+            label: `basic agents - ${index}`,
+            backgroundColor: 'rgb(251, 134, 101)',
+            borderColor: 'rgb(251, 134, 101)',
+            data: basicAgents,
+        },{
+            label: `expert agents - ${index}`,
+            backgroundColor: 'rgb(22, 134, 101)',
+            borderColor: 'rgb(22, 134, 101)',
+            data: expertAgents,
+        }]
+        };
+
+        const config = {
+        type: 'line',
+        data: data,
+        options: {}
+        };
+
+        const myChart = new Chart(
+            document.getElementById(`graph-${index}`),
+            config
+        );
+        }
+
+    });
+
+}
+
+displayGraphs();
+
+</script>
+
+
+<%-contentFor('rightContent')%>
+
+<h3 style="text-align: center;">Result Average Graph</h3>
+
+<div class="row" style="">
+
+
+    <div class="row" id="median-graph-area">
+    </div>
+
+    <hr/>
+
+    <b>Comparison of the experiment mean with the results of the control model:</b>
+    <div class="col-md-6">
+        <p>Basic Agent survival rate:</p>
+        <p>Expert Agent survival rate: </p>
+    </div>
+
+    <div class="col-md-6">
+        <p> [not implemented] </p>
+        <p> [not implemented] </p>
+    </div>
+</div>
+
+
+
+
+<script>
+    const calculateMedian = () => {
+        const finalData = {};
+        let total = 0;
+        Object.keys(received).forEach( run => {
+
+            if(!isNaN(run)){
+                total += 1;
+
+
+                Object.keys(received[run]).forEach( runKey => {
+                    if(!finalData[received[run][runKey]["[step]"]]){
+                        finalData[received[run][runKey]["[step]"]] = {
+                            "count basic-agent": 0,
+                            "count expert-agent": 0
+                        }
+                    }
+
+                    finalData[received[run][runKey]["[step]"]]["count basic-agent"] += parseInt(received[run][runKey]["count basic-agent"]);
+                    finalData[received[run][runKey]["[step]"]]["count expert-agent"] += parseInt(received[run][runKey]["count expert-agent"]);
+                });
+            }
+        });
+
+        Object.keys(finalData).forEach(key => {
+            finalData[key]["count basic-agent"] = finalData[key]["count basic-agent"] / total;
+            finalData[key]["count expert-agent"] = finalData[key]["count expert-agent"] / total;
+        });
+
+
+        const newCanvas = document.createElement('canvas');
+        newCanvas.id = `median-graph`;
+        newCanvas.width = "100%";
+        newCanvas.height = "100%";
+        
+        const newDiv = document.createElement("div");
+        newDiv.className = "col-md-12";
+
+        newDiv.appendChild(newCanvas);
+        document.getElementById('median-graph-area').appendChild(newDiv);
+
+        //data
+        const labels = Object.keys(finalData);
+        const basicAgents = Object.keys(finalData).map( e  =>  finalData[e]["count basic-agent"]);
+        const expertAgents = Object.keys(finalData).map( e  =>  finalData[e]["count expert-agent"]);
+
+        const data = {
+        labels: labels,
+        datasets: [{
+            label: `basic agents`,
+            backgroundColor: 'rgb(251, 134, 101)',
+            borderColor: 'rgb(251, 134, 101)',
+            data: basicAgents,
+        },{
+            label: `expert agents`,
+            backgroundColor: 'rgb(22, 134, 101)',
+            borderColor: 'rgb(22, 134, 101)',
+            data: expertAgents,
+        }]
+        };
+
+        const config = {
+        type: 'line',
+        data: data,
+        options: {}
+        };
+
+        const myChart = new Chart(
+            document.getElementById(`median-graph`),
+            config
+        );
+
+    }
+
+calculateMedian();
+</script>
+
