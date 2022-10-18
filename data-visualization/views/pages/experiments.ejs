@@ -1,0 +1,12 @@
+<%-contentFor('body')%>
+
+<%data.experiments.forEach(experiment => { %>
+    <div class="card" style="margin-top:10px;">
+
+            <div class="card-body" >
+                <a href="/experiments/<%-experiment %>">
+                    <%-experiment%>
+                </a>
+            </div>
+    </div>
+<% }) %>
