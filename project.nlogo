@@ -2,6 +2,12 @@ breed [basic-agent basicagent]
 breed [expert-agent expertagent]
 turtles-own[energy]
 
+globals [
+  total-yellow-food
+  total-green-food
+  restore-food
+]
+
 expert-agent-own[
   experience
   total-yellow-food-eaten
@@ -10,6 +16,7 @@ expert-agent-own[
   total-green-food-eaten-temp
   shelter-tick-count
 ]
+
 
 ; ==================================
 ; setup procedures start here
@@ -23,12 +30,23 @@ to setup-agent-basic
   create-basic-agent n-basic-agent[
     set shape "bug"
     set color 135
-    setxy random-pxcor random-pycor
+  ]
+
+  ask basic-agent [
+
+    let x 0
+    let y 0
+
+    ask one-of patches with [pcolor = 35] [
+      set x pxcor
+      set y pycor
+    ]
+     setxy x y
   ]
 end
 
 to setup-agent-expert
-    create-expert-agent n-expert-agent[
+  create-expert-agent n-expert-agent[
     set experience 0
     set total-yellow-food-eaten 0
     set total-yellow-food-eaten-temp 0
@@ -37,7 +55,18 @@ to setup-agent-expert
     set shelter-tick-count 0
     set shape "butterfly"
     set color 85
-    setxy random-pxcor random-pycor
+  ]
+
+  ask expert-agent [
+
+    let x 0
+    let y 0
+
+    ask one-of patches with [pcolor = 35] [
+      set x pxcor
+      set y pycor
+    ]
+     setxy x y
   ]
 end
 
@@ -47,17 +76,22 @@ to setup-agents ; main procedure that initializes the agents
   ask turtles [setup-agent-generic]; this will set the properties inside the procedure to all turtles
 end
 
-
 to setup-patches-green-food
   ask n-of ((green-food-percentage / 100) * count patches ) patches with [ pcolor = 35 ] [ ; 35 is the color of the ambient, this verification is to avoid changing patches and already have been defined as a food, trap or shelter
       set pcolor green
   ]
+
+  set total-green-food (count patches with [pcolor = green])
+  show total-green-food
 end
 
 to setup-patches-yellow-food
   ask n-of ((yellow-food-percentage / 100) * count patches ) patches with [ pcolor = 35 ] [; 35 is the color of the ambient, this verification is to avoid changing patches and already have been defined as a food, trap or shelter
       set pcolor yellow
   ]
+
+  set total-yellow-food (count patches with [pcolor = yellow])
+  show total-yellow-food
 end
 
 to setup-patches-red-trap
@@ -87,6 +121,10 @@ to setup-patches ; main procedure that initializes the patches
   setup-patches-blue-shelter
 end
 
+to setup-globals
+  set restore-food 0
+end
+
 to setup
   print "----------------------------"
   print " -------- new game -------- "
@@ -94,8 +132,9 @@ to setup
   clear-all
   clear-output
   reset-ticks
-  setup-agents
   setup-patches
+  setup-agents
+  setup-globals
 end
 
 ; ==================================
@@ -108,50 +147,51 @@ end
 
 ; -------  start of basic agent actions -------
 
-
 to-report handle-basic-agent-interaction
 
   let energy-stealed 0
   let energy-losted 0
 
   if count expert-agent-on patch-ahead 1 > 0 [
-    ask one-of expert-agent-on patch-ahead 1[
-      if experience < 50[
-        set energy-stealed energy * 0.5
-        set energy energy - energy-stealed
+    if pcolor != blue [
+      ask one-of expert-agent-on patch-ahead 1[
+        if experience < 50[
+          set energy-stealed energy * 0.5
+          set energy energy - energy-stealed
+        ]
+        if experience >= 50[
+          set energy-losted energy * 0.1
 
-
-      ]
-      if experience >= 50[
-        set energy-losted energy * 0.1
-
-      ]
-      if energy-stealed > 0[
-        set energy energy + energy-stealed
-      ]
-      if energy-losted > 0[
-        set energy energy - energy-losted
+        ]
+        if energy-stealed > 0[
+          set energy energy + energy-stealed
+        ]
+        if energy-losted > 0[
+          set energy energy - energy-losted
+        ]
       ]
     ]
   ]
 
   if count expert-agent-on patch-right-and-ahead 90 1 > 0 [
-    ask one-of expert-agent-on patch-right-and-ahead 90 1[
-      if experience < 50[
-        set energy-stealed energy * 0.5
-        set energy energy - energy-stealed
+    if pcolor != blue [
+      ask one-of expert-agent-on patch-right-and-ahead 90 1[
+        if experience < 50[
+          set energy-stealed energy * 0.5
+          set energy energy - energy-stealed
 
 
-      ]
-      if experience >= 50[
-        set energy-losted energy * 0.1
+        ]
+        if experience >= 50[
+          set energy-losted energy * 0.1
 
-      ]
-      if energy-stealed > 0[
-        set energy energy + energy-stealed
-      ]
-      if energy-losted > 0[
-        set energy energy - energy-losted
+        ]
+        if energy-stealed > 0[
+          set energy energy + energy-stealed
+        ]
+        if energy-losted > 0[
+          set energy energy - energy-losted
+        ]
       ]
     ]
   ]
@@ -169,10 +209,10 @@ to-report handle-basic-agent-food ; reactive agent without memory
   ask patch-here[
     (
       if pcolor = yellow [
-        set pcolor black
+        set pcolor black;
         set virtual-agent-eaten-food 1
       ]
-      )
+    )
   ]
   if virtual-agent-eaten-food = 1[
     set energy energy + 10
@@ -189,9 +229,9 @@ to-report handle-basic-agent-food ; reactive agent without memory
     report nobody
   ]
 
-    ;if there isnt any move for food
-    fd 1
-    report nobody
+  ;if there isnt any move for food
+  fd 1
+  report nobody
 
 end
 
@@ -681,6 +721,7 @@ to-report handle-expert-agent-food
   )
 
   if action-available = 0 [
+    fd 1
     report nobody
   ]
 
@@ -760,17 +801,59 @@ to handle-expert-agent
 end
 
 
+to handle-restore-food
+
+  let current-yellow-food  (count patches with [pcolor = yellow])
+  let current-green-food (count patches with [pcolor = green])
+
+  ;show restore-food
+
+  (ifelse
+
+    restore-food = 1 [
+
+      set restore-food 0
+      if(current-green-food < total-green-food)[
+        ;restore green food
+        let add-food total-green-food - current-green-food
+
+        ask n-of add-food patches with [pcolor = black][
+          set pcolor green
+        ]
+      ]
+
+
+      if(current-yellow-food < total-yellow-food)[
+        ;restore yellow food
+        let add-food total-yellow-food - current-yellow-food
+
+        ask n-of add-food patches with [pcolor = black][
+          set pcolor yellow
+        ]
+      ]
+
+    ]
+
+    restore-food = 0 [
+      set restore-food 1
+    ]
+  )
+
+end
+
 to go; main tick function called in the interface
   handle-basic-agent
   handle-expert-agent
+  handle-restore-food
 
   ask turtles with [energy <= 0] [
     show "i died because i run out of energy :("
     die
   ] ; Energy level reach zero , die.
   if count turtles = 0 [stop]     ; Stops when agents reach zero
+  if ticks > 1000 [stop]
   tick
-  ;go ; uncomment this line to be recursive and dont interate the actions by click
+  go ; uncomment this line to be recursive and dont interate the actions by click
 end
 
 
@@ -799,8 +882,8 @@ GRAPHICS-WINDOW
 16
 -16
 16
-0
-0
+1
+1
 1
 ticks
 30.0
@@ -831,17 +914,17 @@ n-basic-agent
 n-basic-agent
 0
 50
-10.0
+49.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-17
-50
-189
-83
+19
+51
+191
+84
 n-expert-agent
 n-expert-agent
 0
@@ -861,7 +944,7 @@ green-food-percentage
 green-food-percentage
 0
 15
-5.0
+7.0
 1
 1
 NIL
@@ -891,7 +974,7 @@ n-shelter
 n-shelter
 0
 10
-6.0
+5.0
 1
 1
 NIL
@@ -906,7 +989,7 @@ trap-percentage
 trap-percentage
 0
 2
-0.4
+0.9
 0.1
 1
 NIL
