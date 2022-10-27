@@ -857,9 +857,9 @@ end
 ; ==================================
 @#$#@#$#@
 GRAPHICS-WINDOW
-546
+880
 10
-983
+1317
 448
 -1
 -1
@@ -1008,10 +1008,10 @@ NIL
 1
 
 PLOT
-19
-284
-442
-539
+451
+10
+874
+265
 Agents lifetime
 lifetime in ticks
 total agents
@@ -1025,6 +1025,28 @@ false
 PENS
 "basic agents" 1.0 0 -2064490 true "" "plot count basic-agent"
 "expert agents" 1.0 0 -13791810 true "" "plot count expert-agent"
+
+MONITOR
+451
+270
+621
+315
+Total Basic Agents Alive
+count basic-agent
+17
+1
+11
+
+MONITOR
+699
+271
+874
+316
+Total Expert Agents Alive
+count expert-agent
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?

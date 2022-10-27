@@ -7,8 +7,8 @@ globals [
   total-green-food ; the total amount of green food in the map
   total-shelters-destroyed ; the total amount of shelters in the map that were destroyed
   restore-food ; a prop used to verify if the food should be restored ( 2 ticks per time )
-  expert-kill-basic-min-energy ;  if the basic agent is detected by an expert and the basic have less that the configured amount of energy, he dies
-  basic-agent-camouflage-percentage ; if a random number is bigger that the basic agent camouflage percentage the agent dies from the expert when detected, if not he stays alive
+  ;expert-kill-basic-min-energy ;  if the basic agent is detected by an expert and the basic have less that the configured amount of energy, he dies
+  ;basic-agent-camouflage-percentage ; if a random number is bigger that the basic agent camouflage percentage the agent dies from the expert when detected, if not he stays alive
 ]
 
 expert-agent-own[
@@ -27,7 +27,7 @@ expert-agent-own[
 ; ==================================
 to setup-agent-generic ; procedure that shares properties among the turtles/agents
   set energy 100
-  show "my current energy is 100"
+  ;show "my current energy is 100"
 end
 
 to setup-agent-basic
@@ -127,8 +127,8 @@ end
 
 to setup-globals
   set restore-food 0
-  set expert-kill-basic-min-energy 50
-  set basic-agent-camouflage-percentage 30
+  ;set expert-kill-basic-min-energy 50
+  ;set basic-agent-camouflage-percentage 30
   set total-shelters-destroyed 0
 end
 
@@ -411,11 +411,12 @@ to-report handle-expert-agent-interaction
   if count basic-agent-on patch-ahead 1 > 0 [
     ; get only one basic-agent to target
     ask one-of basic-agent-on patch-ahead 1 [
-      if random 99 < basic-agent-camouflage-percentage [
+      if random 99 > basic-agent-camouflage-percentage [
         if energy < expert-kill-basic-min-energy [
           ; get half of his energy
           set energy-stealed energy-stealed + (energy * 0.5)
           ; kill him
+          show "a expert agent killed me"
           die
         ]
       ]
@@ -425,11 +426,12 @@ to-report handle-expert-agent-interaction
   if count basic-agent-on patch-left-and-ahead 90 1 > 0 [
     ; get only one basic-agent to target
     ask one-of basic-agent-on patch-left-and-ahead 90 1 [
-      if random 99 < basic-agent-camouflage-percentage [
+      if random 99 > basic-agent-camouflage-percentage [
         if energy < expert-kill-basic-min-energy [
           ; get half of his energy
           set energy-stealed energy-stealed + (energy * 0.5)
           ; kill him
+          show "a expert agent killed me"
           die
         ]
       ]
@@ -441,12 +443,14 @@ to-report handle-expert-agent-interaction
 
     ; get only one basic-agent to target
     ask one-of basic-agent-on patch-right-and-ahead 90 1 [
-      if random 99 < basic-agent-camouflage-percentage [
+      if random 99 > basic-agent-camouflage-percentage [
         if energy < expert-kill-basic-min-energy [
           ; get half of his energy
           set energy-stealed energy-stealed + (energy * 0.5)
           ; kill him
+          show "a expert agent killed me"
           die
+
         ]
       ]
     ]
@@ -479,7 +483,7 @@ to-report handle-expert-agent-trap
     if experience >= 50 [
       rt 90 ; rotate to right ignoring the trap
       set action-executed 1
-      show "im imune to trap ahead because i have more than 50 exp - just avoiding it"
+      ;show "im imune to trap ahead because i have more than 50 exp - just avoiding it"
     ]
 
     if experience < 50 [
@@ -493,7 +497,7 @@ to-report handle-expert-agent-trap
         ]
         ; if experience < 50 units and energy < 100 units the agent dies
         energy < 100 [
-          show "im dying from a trap ahead"
+          ;show "im dying from a trap ahead"
           set virtual-agent-should-die 1
         ]
       )
@@ -510,7 +514,7 @@ to-report handle-expert-agent-trap
     if experience >= 50 [
       rt 90 ; rotate to right ignoring the trap
       set action-executed 1
-      show "im imune to trap on the left because i have more than 50 exp - just avoiding it"
+      ;show "im imune to trap on the left because i have more than 50 exp - just avoiding it"
     ]
 
     if experience < 50 [
@@ -524,7 +528,7 @@ to-report handle-expert-agent-trap
         ]
         ; if experience < 50 units and energy < 100 units the agent dies
         energy < 100 [
-          show "im dying from a trap on the left"
+          ;show "im dying from a trap on the left"
           set virtual-agent-should-die 1
         ]
       )
@@ -541,7 +545,7 @@ to-report handle-expert-agent-trap
     if experience >= 50 [
       rt -90 ; rotate to left ignoring the trap on the right
       set action-executed 1
-      show "im imune to trap on the right because i have more than 50 exp - just avoiding it"
+      ;show "im imune to trap on the right because i have more than 50 exp - just avoiding it"
     ]
 
     if experience < 50 [
@@ -555,7 +559,7 @@ to-report handle-expert-agent-trap
         ]
         ; if experience < 50 units and energy < 100 units the agent dies
         energy < 100 [
-          show "im dying from a trap on the right"
+          ;show "im dying from a trap on the right"
           set virtual-agent-should-die 1
         ]
       )
@@ -597,7 +601,7 @@ to-report handle-expert-agent-shelter
       set energy energy + 500
       set experience experience + 25
       set shelter-tick-count 0
-      show "leaving the shelter after 10 ticks and received rewards"
+      ;show "leaving the shelter after 10 ticks and received rewards"
       fd 1; move foward
       report 1 ; one because the agent needs to leave the shelter immediatly
     ]
@@ -629,7 +633,7 @@ to-report handle-expert-agent-shelter
       ]
 
       if energy >= 500 or experience >= 25 [
-        show "i have more energy or experience that is allowed to enter in the shelter - avoiding :("
+        ;show "i have more energy or experience that is allowed to enter in the shelter - avoiding :("
         rt -90; ignoring the shelter
         report 1
       ]
@@ -659,7 +663,7 @@ to-report handle-expert-agent-shelter
       ]
 
       if energy >= 500 or experience >= 25 [
-        show "i have more energy or experience that is allowed to enter in the shelter on the left - avoiding :("
+        ;show "i have more energy or experience that is allowed to enter in the shelter on the left - avoiding :("
         fd 1; ignoring the shelter
         report 1
       ]
@@ -689,7 +693,7 @@ to-report handle-expert-agent-shelter
       ]
 
       if energy >= 500 or experience >= 25 [
-        show "i have more energy or experience that is allowed to enter in the shelter on the right - avoiding :("
+        ;show "i have more energy or experience that is allowed to enter in the shelter on the right - avoiding :("
         fd 1; ignoring the shelter
         report 1
       ]
@@ -901,9 +905,9 @@ end
 ; ==================================
 @#$#@#$#@
 GRAPHICS-WINDOW
-546
+808
 10
-983
+1245
 448
 -1
 -1
@@ -928,10 +932,10 @@ ticks
 30.0
 
 BUTTON
-18
-200
-442
-233
+377
+378
+801
+411
 Setup
 Setup
 NIL
@@ -945,100 +949,100 @@ NIL
 1
 
 SLIDER
-18
+19
 10
-190
+191
 43
 n-basic-agent
 n-basic-agent
 0
 50
-10.0
+17.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-19
+20
 51
-191
+192
 84
 n-expert-agent
 n-expert-agent
 0
 100
-10.0
+20.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-202
-10
-441
-43
+21
+107
+260
+140
 green-food-percentage
 green-food-percentage
 0
 15
-15.0
+13.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-203
-46
-441
-79
+22
+143
+260
+176
 yellow-food-percentage
 yellow-food-percentage
 0
 5
-4.9
+3.1
 0.1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-203
-119
-442
-152
+22
+216
+261
+249
 n-shelter
 n-shelter
 0
 10
-5.0
+10.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-203
-83
-442
-116
+22
+180
+261
+213
 trap-percentage
 trap-percentage
 0
 2
-0.7
+1.9
 0.1
 1
 NIL
 HORIZONTAL
 
 BUTTON
-17
-241
-442
-274
+377
+417
+802
+450
 Go
 go
 NIL
@@ -1052,10 +1056,10 @@ NIL
 1
 
 PLOT
-19
-284
-442
-539
+377
+12
+800
+267
 Agents lifetime
 lifetime in ticks
 total agents
@@ -1069,6 +1073,80 @@ false
 PENS
 "basic agents" 1.0 0 -2064490 true "" "plot count basic-agent"
 "expert agents" 1.0 0 -13345367 true "" "plot count expert-agent"
+
+SLIDER
+23
+321
+342
+354
+basic-agent-camouflage-percentage
+basic-agent-camouflage-percentage
+0
+100
+11.0
+1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+23
+279
+275
+312
+expert-kill-basic-min-energy
+expert-kill-basic-min-energy
+0
+500
+118.0
+1
+1
+NIL
+HORIZONTAL
+
+MONITOR
+377
+275
+556
+320
+Total Expert Agents Alive
+count expert-agent
+17
+1
+11
+
+MONITOR
+631
+274
+801
+319
+Total Basic Agents Alive
+count basic-agent
+17
+1
+11
+
+MONITOR
+376
+328
+568
+373
+total-green-food rendered
+total-green-food
+17
+1
+11
+
+MONITOR
+616
+326
+801
+371
+total-yellow-food rendered
+total-yellow-food
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
