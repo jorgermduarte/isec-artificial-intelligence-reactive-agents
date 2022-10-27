@@ -2,16 +2,7 @@
 
 ## Things to do:
 
-- Verificar as perceções entre agentes ( steal de energia ) se contam como ações?
-- Tendo em conta que o avoid de uma trap faz com que o agente rode , implica que depois nao executa a proxima verificaçao de perceção de comida.    [-]
-
-- Se percecionar 3 agentes ao mesmo tempo , é possivel roubar energia a 3 agentes?  [-]
-
-- Verificar se o expert ganha experiencia por tick [-]
-
 - Verificar bugs / melhorias [-]
-
-- Verificar requisisitos e ler o código.    [-]
 
 - Ver relatório [-]
 
@@ -35,6 +26,13 @@ Assumir:
 
 - Para cada estratégia proposta , comparar as métricas com o modelo base equivalente.
 
+- Aplicações no modelo melhorado:
+  -  os expert só matam os basic se estes tiverem menos de 50 de energia
+  - adição de um novo tipo de comida para os basic
+  - camuflagem para os basic
+  - os basic destroem shelters (só quando não estiverem ocupados)
+    - ganham 50% energia quando destroem uma shelter
+    - quando destruidos,  os shelters dão spawn noutro local do mapa
 
 
 ## Relatório
