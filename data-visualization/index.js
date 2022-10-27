@@ -21,17 +21,26 @@ server.get('/', (req, res) => {
     .Render('experiments')
 });
 
-server.get('/experiments/:experiment', (req, res) => {
+server.get('/experiments/:experiment', async (req, res) => {
 
     const requiredKeys = ['BehaviorSpace results (NetLogo 6.3.0)','_1','_2','_3','_4','_5','_6','_7','_8','_9'];
-    const newKeys = ["[run number]","yellow-food-percentage","n-shelter","n-basic-agent","green-food-percentage","n-expert-agent","trap-percentage","[step]","count basic-agent","count expert-agent"];
+    const newKeys = ["[run number]","n-shelter","yellow-food-percentage","n-basic-agent","n-expert-agent","green-food-percentage","trap-percentage","[step]","count basic-agent","count expert-agent"];
 
     const experimentName = req.params.experiment;
+    let default_experiment = null;
+
+    if(experimentName != 'base-model-default-table.csv'){
+        experimentLib.getExperiment("base-model-default-table.csv",requiredKeys,newKeys,(data,notValid) => {
+            default_experiment = data;
+        });
+    }
 
     const experiment = experimentLib.getExperiment(experimentName,requiredKeys,newKeys,(data,notValid) => {
         new render(req,res)
         .SetData({
-            experiment: JSON.stringify(data)
+            experiment: JSON.stringify(data),
+            experiment_name: experimentName,
+            default_experiment: default_experiment
         })
         .Render('preview')
     });

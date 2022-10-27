@@ -6,12 +6,12 @@
 <div id="experiment-data-properties" style="padding:20px;">
     <div class="row">
         <div class="col-md-6" style="font-weight: bold;">
-            <p>Green food percentage: </p>
-            <p>Yellow food percentage: </p>
-            <p>Trap percentage: </p>
-            <p>Number of shelters: </p>
-            <p>Number of basic agents: </p>
-            <p>Number of expert agents: </p>
+            <p>Green food %: </p>
+            <p>Yellow food %: </p>
+            <p>Trap %: </p>
+            <p>N of shelters: </p>
+            <p>N of basic agents: </p>
+            <p>N of expert agents: </p>
         </div>
         <div class="col-md-6">
             <p id="green-food-percentage"> </p>
@@ -19,7 +19,7 @@
             <p id="trap-percentage"> </p>
             <p id="n-shelters"></p>
             <p id="n-basic-agents"> </p>
-            <p id="expert-basic-agents"> </p>
+            <p id="n-expert-agents"> </p>
         </div>
     </div>
 </div>
@@ -34,7 +34,7 @@
     document.getElementById('trap-percentage').innerHTML = props["trap-percentage"];
     document.getElementById('n-shelters').innerHTML = props["n-shelter"];
     document.getElementById('n-basic-agents').innerHTML = props["n-basic-agent"];
-    document.getElementById('expert-basic-agents').innerHTML = props["n-expert-agent"];
+    document.getElementById('n-expert-agents').innerHTML = props["n-expert-agent"];
 
 </script>
 
@@ -54,7 +54,7 @@ const displayGraphs = () => {
 
     Object.keys(received).forEach (  (run, index) => {
 
-        if(index < 10){
+        if(index < 20){
 
         const newCanvas = document.createElement('canvas');
         newCanvas.id = `graph-${index}`;
@@ -81,8 +81,8 @@ const displayGraphs = () => {
             data: basicAgents,
         },{
             label: `expert agents - ${index}`,
-            backgroundColor: 'rgb(22, 134, 101)',
-            borderColor: 'rgb(22, 134, 101)',
+            backgroundColor: 'blue',
+            borderColor: 'blue',
             data: expertAgents,
         }]
         };
@@ -112,13 +112,17 @@ displayGraphs();
 
 <h3 style="text-align: center;">Result Average Graph</h3>
 
+
 <div class="row" style="">
 
 
     <div class="row" id="median-graph-area">
     </div>
 
+
     <hr/>
+    <% if(data.experiment_name != "base-model-default-table.csv"){ %>
+    
     <p></p>
     <b>Comparison of the experiment average graph with the results of the control model:</b>
     <p></p>
@@ -127,32 +131,24 @@ displayGraphs();
         <p>Basic Agent survival rate:</p>
         <p>Expert Agent survival rate: </p>
         <hr/>
-        <p>Green food percentage change: </p>
-        <p>Yellow food percentage change: </p>
-        <p>Trap percentage change: </p>
-        <p>Number of shelters percentage change: </p>
-        <p>Number of basic agents percentage change: </p>
-        <p>Number of expert agents percentage change: </p>
+     
     </div>
 
     <div class="col-md-6">
         <p> [not implemented] </p>
         <p> [not implemented] </p>
         <hr/>
-        <p> [not implemented] </p>
-        <p> [not implemented] </p>
-        <p> [not implemented] </p>
-        <p> [not implemented] </p>
-        <p> [not implemented] </p>
-        <p> [not implemented] </p>
+      
     </div>
-</div>
+    <% } %>
 
+</div>
 
 
 
 <script>
     const calculateMedian = () => {
+
         const finalData = {};
         let total = 0;
         Object.keys(received).forEach( run => {
@@ -180,12 +176,11 @@ displayGraphs();
             finalData[key]["count expert-agent"] = finalData[key]["count expert-agent"] / total;
         });
 
-
         const newCanvas = document.createElement('canvas');
         newCanvas.id = `median-graph`;
         newCanvas.width = "100%";
         newCanvas.height = "100%";
-        
+
         const newDiv = document.createElement("div");
         newDiv.className = "col-md-12";
 
@@ -206,8 +201,8 @@ displayGraphs();
             data: basicAgents,
         },{
             label: `expert agents`,
-            backgroundColor: 'rgb(22, 134, 101)',
-            borderColor: 'rgb(22, 134, 101)',
+            backgroundColor: 'blue',
+            borderColor: 'blue',
             data: expertAgents,
         }]
         };
@@ -226,5 +221,16 @@ displayGraphs();
     }
 
 calculateMedian();
+
 </script>
 
+<% if(data.default_experiment != null){ %>
+    <script>
+        const default_experiment_received = <%-data.default_experiment %>;
+
+        const displayChangesComparedToDefault = () => {
+        }
+
+        displayChangesComparedToDefault();
+    </script>
+<% } %>
