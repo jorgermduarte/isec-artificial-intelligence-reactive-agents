@@ -379,13 +379,12 @@ end
 
 ;  --------start of expert agent actions -------
 to-report handle-expert-agent-interaction
-  ; does the agent perceived a basic agent? (only one)
-
+  ; does the agent perceived a basic agent? (only one per direction)
   let energy-stealed 0
 
 
   if count basic-agent-on patch-ahead 1 > 0 [
-   ; get only one basic-agent to target
+    ; get only one basic-agent to target
     ask one-of basic-agent-on patch-ahead 1 [
       ; get half of his energy
       set energy-stealed energy * 0.5
@@ -396,27 +395,23 @@ to-report handle-expert-agent-interaction
 
 
   if count basic-agent-on patch-left-and-ahead 90 1 > 0 [
-    if energy-stealed = 0 [
-      ; get only one basic-agent to target
-      ask one-of basic-agent-on patch-left-and-ahead 90 1 [
-        ; get half of his energy
-        set energy-stealed energy * 0.5
-        ; kill him
-        die
-      ]
+    ; get only one basic-agent to target
+    ask one-of basic-agent-on patch-left-and-ahead 90 1 [
+      ; get half of his energy
+      set energy-stealed energy * 0.5
+      ; kill him
+      die
     ]
   ]
 
 
   if count basic-agent-on patch-right-and-ahead 90 1  > 0 [
-    if energy-stealed = 0 [
-      ; get only one basic-agent to target
-      ask one-of basic-agent-on patch-right-and-ahead 90 1 [
-        ; get half of his energy
-        set energy-stealed energy * 0.5
-        ; kill him
-        die
-      ]
+    ; get only one basic-agent to target
+    ask one-of basic-agent-on patch-right-and-ahead 90 1 [
+      ; get half of his energy
+      set energy-stealed energy * 0.5
+      ; kill him
+      die
     ]
   ]
 
@@ -914,7 +909,7 @@ n-basic-agent
 n-basic-agent
 0
 50
-49.0
+5.0
 1
 1
 NIL
@@ -929,7 +924,7 @@ n-expert-agent
 n-expert-agent
 0
 100
-5.0
+8.0
 1
 1
 NIL
@@ -959,7 +954,7 @@ yellow-food-percentage
 yellow-food-percentage
 0
 5
-5.0
+2.4
 0.1
 1
 NIL
@@ -1028,8 +1023,8 @@ true
 false
 "" ""
 PENS
-"basic agents" 1.0 0 -16777216 true "" "plot count basic-agent"
-"expert agents" 1.0 0 -7500403 true "" "plot count expert-agent"
+"basic agents" 1.0 0 -2064490 true "" "plot count basic-agent"
+"expert agents" 1.0 0 -13791810 true "" "plot count expert-agent"
 
 @#$#@#$#@
 ## WHAT IS IT?
