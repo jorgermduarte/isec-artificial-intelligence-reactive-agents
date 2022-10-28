@@ -957,7 +957,7 @@ n-basic-agent
 n-basic-agent
 0
 50
-17.0
+18.0
 1
 1
 NIL
@@ -972,7 +972,7 @@ n-expert-agent
 n-expert-agent
 0
 100
-20.0
+18.0
 1
 1
 NIL
@@ -987,7 +987,7 @@ green-food-percentage
 green-food-percentage
 0
 15
-13.0
+15.0
 1
 1
 NIL
@@ -1002,7 +1002,7 @@ yellow-food-percentage
 yellow-food-percentage
 0
 5
-3.1
+5.0
 0.1
 1
 NIL
@@ -1032,7 +1032,7 @@ trap-percentage
 trap-percentage
 0
 2
-1.9
+0.4
 0.1
 1
 NIL
@@ -1075,15 +1075,15 @@ PENS
 "expert agents" 1.0 0 -13345367 true "" "plot count expert-agent"
 
 SLIDER
-23
-321
-342
-354
+22
+319
+341
+352
 basic-agent-camouflage-percentage
 basic-agent-camouflage-percentage
 0
 100
-11.0
+50.0
 1
 1
 NIL
@@ -1098,7 +1098,7 @@ expert-kill-basic-min-energy
 expert-kill-basic-min-energy
 0
 500
-118.0
+114.0
 1
 1
 NIL

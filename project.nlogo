@@ -924,7 +924,7 @@ n-expert-agent
 n-expert-agent
 0
 100
-10.0
+0.0
 1
 1
 NIL
@@ -984,7 +984,7 @@ trap-percentage
 trap-percentage
 0
 2
-1.7
+0.9
 0.1
 1
 NIL
@@ -1395,7 +1395,7 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="base-model-default" repetitions="20" runMetricsEveryStep="true">
+  <experiment name="base-model-experiment-default" repetitions="20" runMetricsEveryStep="true">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="1000"/>
@@ -1420,32 +1420,7 @@ NetLogo 6.3.0
       <value value="0.9"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="base-model-experiment-yellow-food" repetitions="20" runMetricsEveryStep="true">
-    <setup>setup</setup>
-    <go>go</go>
-    <timeLimit steps="1000"/>
-    <metric>count basic-agent</metric>
-    <metric>count expert-agent</metric>
-    <enumeratedValueSet variable="n-shelter">
-      <value value="5"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="yellow-food-percentage">
-      <value value="4"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="n-basic-agent">
-      <value value="10"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="n-expert-agent">
-      <value value="10"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="green-food-percentage">
-      <value value="7"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="trap-percentage">
-      <value value="0.9"/>
-    </enumeratedValueSet>
-  </experiment>
-  <experiment name="base-model-experiment-traps" repetitions="20" runMetricsEveryStep="true">
+  <experiment name="base-model-experiment-plus-trap-2.0" repetitions="20" runMetricsEveryStep="true">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="1000"/>
@@ -1467,7 +1442,282 @@ NetLogo 6.3.0
       <value value="7"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="trap-percentage">
-      <value value="1.7"/>
+      <value value="2"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-less-trap-0.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-less-green-food-0.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0.9"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-plus-green-food-15.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="15"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0.9"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-less-yellow-food-0.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0.9"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-plus-yellow-food-5.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0.9"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-less-shelter-0.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0.9"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-plus-shelter-10.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0.9"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-plus-basic-agent-50.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0.9"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-less-basic-agent-0.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0.9"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-plus-expert-50.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0.9"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-less-expert-0.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0.9"/>
     </enumeratedValueSet>
   </experiment>
 </experiments>
