@@ -2,11 +2,8 @@
 
 ## Things to do:
 
-- Verificar bugs / melhorias [-]
-
 - Ver relatório [-]
 
-- Experiencias  [-]
 
 
 ## Estudo Experimental
