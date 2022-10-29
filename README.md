@@ -25,7 +25,6 @@ Assumir:
 
 - Aplicações no modelo melhorado:
   -  os expert só matam os basic se estes tiverem menos de 50 de energia
-  - adição de um novo tipo de comida para os basic
   - camuflagem para os basic
   - os basic destroem shelters (só quando não estiverem ocupados)
     - ganham 50% energia quando destroem uma shelter
