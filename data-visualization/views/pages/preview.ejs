@@ -12,6 +12,11 @@
             <p>N of shelters:  <span id="n-shelters"></span></p>
             <p>N of basic agents:  <span id="n-basic-agents"> </span></p>
             <p>N of expert agents:  <span id="n-expert-agents"> </span></p>
+            <hr/>
+            <% if(data.model_type =="upgraded"){ %>
+                <p>Min energy to be invulnerable against expert-agents:  <span id="min-energy-vulnerable-basic"> </span></p>
+                <p>Basic camouflage %:  <span id="camouflage-percentage-basic"> </span></p>
+            <% } %>
         </div>
       
     </div>
@@ -28,6 +33,9 @@
     document.getElementById('n-shelters').innerHTML = props["n-shelter"];
     document.getElementById('n-basic-agents').innerHTML = props["n-basic-agent"];
     document.getElementById('n-expert-agents').innerHTML = props["n-expert-agent"];
+
+    document.getElementById("min-energy-vulnerable-basic").innerHTML = props["expert-kill-basic-min-energy"];
+    document.getElementById("camouflage-percentage-basic").innerHTML = props["basic-agent-camouflage-percentage"];
 
 </script>
 

@@ -1032,7 +1032,7 @@ trap-percentage
 trap-percentage
 0
 2
-1.0
+0.0
 0.1
 1
 NIL
@@ -1083,7 +1083,7 @@ basic-agent-camouflage-percentage
 basic-agent-camouflage-percentage
 0
 100
-50.0
+100.0
 1
 1
 NIL
@@ -1524,6 +1524,471 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="trap-percentage">
       <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-plus-basic-agent-50" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="101"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-plus-shelter-10" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="101"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-plus-basic-min-energy-300" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="300"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-less-basic-min-energy-0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-less-min-energy-50-plus-camouflage-85" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="85"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-less-min-energy-30-plus-camouflage-90" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="30"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="90"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-less-min-energy-30-plus-camouflage-100" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="30"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-less-min-energy-30-plus-camouflage-100-plus-shelter-10" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="30"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-less-min-energy-30-plus-camouflage-100-plus-shelter-10-less-agents-10" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="30"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-less-min-energy-30-plus-camouflage-100-plus-shelter-10-less-agents-5" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="30"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-plus-yellow-food" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="101"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-plus-yellow-food-plus-shelters-10" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="101"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-less-min-energy-30-plus-camouflage-100-plus-shelter-10-less-agents-10-plus-yellow-food-5.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="30"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-less-trap-percentage-0.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="101"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="upgraded-model-less-trap-percentage-0.0-plus-camouflage-100" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="2.5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="expert-kill-basic-min-energy">
+      <value value="101"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="18"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="basic-agent-camouflage-percentage">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0"/>
     </enumeratedValueSet>
   </experiment>
 </experiments>
