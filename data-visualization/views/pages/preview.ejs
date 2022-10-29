@@ -5,22 +5,15 @@
 
 <div id="experiment-data-properties" style="padding:20px;">
     <div class="row">
-        <div class="col-md-6" style="font-weight: bold;">
-            <p>Green food %: </p>
-            <p>Yellow food %: </p>
-            <p>Trap %: </p>
-            <p>N of shelters: </p>
-            <p>N of basic agents: </p>
-            <p>N of expert agents: </p>
+        <div class="col-md-12" style="font-weight: bold;">
+            <p>Green food %:  <span id="green-food-percentage"> </span></p>
+            <p>Yellow food %: <span id="yellow-food-percentage"> </span> </p>
+            <p>Trap %: <span id="trap-percentage"> </span></p>
+            <p>N of shelters:  <span id="n-shelters"></span></p>
+            <p>N of basic agents:  <span id="n-basic-agents"> </span></p>
+            <p>N of expert agents:  <span id="n-expert-agents"> </span></p>
         </div>
-        <div class="col-md-6">
-            <p id="green-food-percentage"> </p>
-            <p id="yellow-food-percentage"> </p>
-            <p id="trap-percentage"> </p>
-            <p id="n-shelters"></p>
-            <p id="n-basic-agents"> </p>
-            <p id="n-expert-agents"> </p>
-        </div>
+      
     </div>
 </div>
 
@@ -128,15 +121,15 @@ displayGraphs();
     <p></p>
     <div class="col-md-6">
 
-        <p>Basic Agent survival rate:</p>
-        <p>Expert Agent survival rate: </p>
+        <p>Basic Agent survival rate diff:</p>
+        <p>Expert Agent survival rate diff: </p>
         <hr/>
      
     </div>
 
     <div class="col-md-6">
-        <p> [not implemented] </p>
-        <p> [not implemented] </p>
+        <p id="basic-agent-alive-rate-difference"> loading... </p>
+        <p id="expert-agent-alive-rate-difference"> loading... </p>
         <hr/>
       
     </div>
@@ -228,7 +221,116 @@ calculateMedian();
     <script>
         const default_experiment_received = <%-data.default_experiment %>;
 
-        const displayChangesComparedToDefault = () => {
+        const base_model_alive_rate = {
+            "total-basic-agent": 0,
+            "total-expert-agent": 0,
+            "iterations": 0,
+            "basic-agent-per-tick": [],
+            "expert-agent-per-tick": [],
+            "final-basic-alive-rate": 0,
+            "final-expert-alive-rate": 0
+        }
+
+        const current_model_alive_rate = {
+            "total-basic-agent": 0,
+            "total-expert-agent": 0,
+            "iterations": 0,
+            "basic-agent-per-tick": [],
+            "expert-agent-per-tick": [],
+            "final-basic-alive-rate": 0,
+            "final-expert-alive-rate": 0
+        }
+
+        const final_data_comparison = {
+            "basic-agent-alive-rate-comparison": 0,
+            "expert-agent-alive-rate-comparison": 0
+        }
+
+        function displayChangesComparedToDefault(){
+
+
+           Object.keys(default_experiment_received).forEach(iteration => {
+            if(!isNaN(iteration)){
+                base_model_alive_rate["iterations"] += 1;
+
+                default_experiment_received[iteration].forEach( experiment => {
+                    if(base_model_alive_rate["total-basic-agent"] == 0){
+                        base_model_alive_rate["total-basic-agent"] += parseInt(experiment["n-basic-agent"]);
+                    }
+                    if(base_model_alive_rate["total-expert-agent"] == 0){
+                        base_model_alive_rate["total-expert-agent"] += parseInt(experiment["n-expert-agent"]);
+                    }
+
+                    base_model_alive_rate["basic-agent-per-tick"].push(parseInt(experiment["count basic-agent"]));
+                    base_model_alive_rate["expert-agent-per-tick"].push(parseInt(experiment["count expert-agent"]));
+                });
+
+                base_model_alive_rate["final-basic-alive-rate"] = base_model_alive_rate["basic-agent-per-tick"].reduce(
+                    (previousValue, currentValue) => previousValue + currentValue,
+                    0
+                ) / 1000 / base_model_alive_rate["total-basic-agent"] / base_model_alive_rate["iterations"];
+
+                base_model_alive_rate["final-expert-alive-rate"] = base_model_alive_rate["expert-agent-per-tick"].reduce(
+                    (previousValue, currentValue) => previousValue + currentValue,
+                    0
+                ) / 1000 / base_model_alive_rate["total-expert-agent"] / base_model_alive_rate["iterations"];
+
+
+            }
+           });
+
+           Object.keys(received).forEach(iteration => {
+            if(!isNaN(iteration)){
+                current_model_alive_rate["iterations"] += 1;
+
+                received[iteration].forEach( experiment => {
+                    if(current_model_alive_rate["total-basic-agent"] == 0){
+                        current_model_alive_rate["total-basic-agent"] += parseInt(experiment["n-basic-agent"]);
+                    }
+                    if(current_model_alive_rate["total-expert-agent"] == 0){
+                        current_model_alive_rate["total-expert-agent"] += parseInt(experiment["n-expert-agent"]);
+                    }
+
+                    current_model_alive_rate["basic-agent-per-tick"].push(parseInt(experiment["count basic-agent"]));
+                    current_model_alive_rate["expert-agent-per-tick"].push(parseInt(experiment["count expert-agent"]));
+                });
+
+                current_model_alive_rate["final-basic-alive-rate"] = current_model_alive_rate["basic-agent-per-tick"].reduce(
+                    (previousValue, currentValue) => previousValue + currentValue,
+                    0
+                ) / 1000 / current_model_alive_rate["total-basic-agent"] / current_model_alive_rate["iterations"];
+
+                current_model_alive_rate["final-expert-alive-rate"] = current_model_alive_rate["expert-agent-per-tick"].reduce(
+                    (previousValue, currentValue) => previousValue + currentValue,
+                    0
+                ) / 1000 / current_model_alive_rate["total-expert-agent"] / current_model_alive_rate["iterations"];
+
+
+            }
+           });
+
+            final_data_comparison["basic-agent-alive-rate-comparison"] = current_model_alive_rate["final-basic-alive-rate"] - base_model_alive_rate["final-basic-alive-rate"];
+            final_data_comparison["expert-agent-alive-rate-comparison"] = current_model_alive_rate["final-expert-alive-rate"] - base_model_alive_rate["final-expert-alive-rate"];
+
+            console.log(base_model_alive_rate);
+            console.log(current_model_alive_rate);
+            console.log(final_data_comparison);
+
+            document.getElementById("basic-agent-alive-rate-difference").innerHTML = (final_data_comparison["basic-agent-alive-rate-comparison"] * 100).toFixed(3) + "%";
+            document.getElementById("expert-agent-alive-rate-difference").innerHTML = (final_data_comparison["expert-agent-alive-rate-comparison"] * 100).toFixed(3) + "%";
+           
+            if(final_data_comparison["basic-agent-alive-rate-comparison"] > 0){
+                document.getElementById("basic-agent-alive-rate-difference").style.color = "green";
+            }else{
+                document.getElementById("basic-agent-alive-rate-difference").style.color = "red";
+            }
+
+            if(final_data_comparison["expert-agent-alive-rate-comparison"] > 0){
+                document.getElementById("expert-agent-alive-rate-difference").style.color = "green";
+            }else{
+                document.getElementById("expert-agent-alive-rate-difference").style.color = "red";
+            }
+
         }
 
         displayChangesComparedToDefault();

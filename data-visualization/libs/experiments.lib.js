@@ -19,43 +19,40 @@ const verifyKeys = (data,requiredKeys) => {
 }
 
 
-const getExperiment = async (experimentName,requiredKeys,newKeys,callback) => {
-    // const results = [];
-    const notValid = [];
-    const resultsFiltered = {};
+const getExperiment = async (experimentName,requiredKeys,newKeys) => {
+    return new Promise(async (resolve,reject) => {
+        // const results = [];
+        const notValid = [];
+        const resultsFiltered = {};
 
-    let i = 0;
+        let i = 0;
 
-    await fs.createReadStream(`experiments/${experimentName}`)
-    .pipe(csv())
-    .on('data', (data) =>{
-        i = i +1;
-        const isValidData = verifyKeys(data,requiredKeys);
-        const newObj = {};
-        if(isValidData){
-            for (let index = 0; index < Object.keys(data).length; index++) {
-                newObj[newKeys[index]] = data[requiredKeys[index]];
-            }
+        await fs.createReadStream(`experiments/${experimentName}`)
+        .pipe(csv())
+        .on('data', (data) =>{
+            i = i +1;
+            const isValidData = verifyKeys(data,requiredKeys);
+            const newObj = {};
+            if(isValidData){
+                for (let index = 0; index < Object.keys(data).length; index++) {
+                    newObj[newKeys[index]] = data[requiredKeys[index]];
+                }
 
-            if(resultsFiltered[newObj['[run number]']]){
-                resultsFiltered[newObj['[run number]']].push(newObj);
+                if(resultsFiltered[newObj['[run number]']]){
+                    resultsFiltered[newObj['[run number]']].push(newObj);
+                }else{
+                    resultsFiltered[newObj['[run number]']] = [];
+                    resultsFiltered[newObj['[run number]']].push(newObj);
+                }
+                // results.push(newObj);
             }else{
-                resultsFiltered[newObj['[run number]']] = [];
-                resultsFiltered[newObj['[run number]']].push(newObj);
+                notValid.push(data);
             }
-            // results.push(newObj);
-        }else{
-            notValid.push(data);
-        }
-    })
-    .on('end', () => {
-        // console.log(`processed:: ${i} lines`);
-        // console.log(`invalid data:: ${notValid.length} lines`);
-        // console.log(Object.keys(resultsFiltered))
-        // console.log(resultsFiltered['[run number]'])
-        callback(resultsFiltered,notValid);
+        })
+        .on('end', () => {
+            resolve(resultsFiltered);
+        });
     });
-
 }
 
 const getExperiments = () =>  {

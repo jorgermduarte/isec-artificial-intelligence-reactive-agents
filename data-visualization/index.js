@@ -21,7 +21,7 @@ server.get('/', (req, res) => {
     .Render('experiments')
 });
 
-server.get('/experiments/:experiment', async (req, res) => {
+server.get('/experiments/basic/:experiment', async (req, res) => {
 
     const requiredKeys = ['BehaviorSpace results (NetLogo 6.3.0)','_1','_2','_3','_4','_5','_6','_7','_8','_9'];
     const newKeys = ["[run number]","n-shelter","yellow-food-percentage","n-basic-agent","n-expert-agent","green-food-percentage","trap-percentage","[step]","count basic-agent","count expert-agent"];
@@ -30,20 +30,18 @@ server.get('/experiments/:experiment', async (req, res) => {
     let default_experiment = null;
 
     if(experimentName != 'base-model-default-table.csv'){
-        experimentLib.getExperiment("base-model-default-table.csv",requiredKeys,newKeys,(data,notValid) => {
-            default_experiment = data;
-        });
+        default_experiment = await experimentLib.getExperiment("base-model-default-table.csv",requiredKeys,newKeys);
     }
 
-    const experiment = experimentLib.getExperiment(experimentName,requiredKeys,newKeys,(data,notValid) => {
+    const data = await experimentLib.getExperiment(experimentName,requiredKeys,newKeys);
         new render(req,res)
         .SetData({
             experiment: JSON.stringify(data),
             experiment_name: experimentName,
-            default_experiment: default_experiment
+            default_experiment: JSON.stringify(default_experiment),
+            model_type: "basic"
         })
         .Render('preview')
-    });
 });
 
 server.listen(3000, () => console.log("server started successfully at port 3000"));
