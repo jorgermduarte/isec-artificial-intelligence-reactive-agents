@@ -1,10 +1,5 @@
 # artificial-intelligence-reactive-agents
 
-## Things to do:
-
-- Ver relatório [-]
-
-
 
 ## Estudo Experimental
 Assumir:
