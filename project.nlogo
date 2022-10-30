@@ -954,7 +954,7 @@ yellow-food-percentage
 yellow-food-percentage
 0
 5
-2.4
+5.0
 0.1
 1
 NIL
@@ -984,7 +984,7 @@ trap-percentage
 trap-percentage
 0
 2
-0.9
+0.0
 0.1
 1
 NIL
@@ -1718,6 +1718,31 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="trap-percentage">
       <value value="0.9"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="base-model-experiment-plus-yellow-food-5.0-less-traps-0.0-less-experts-0.0" repetitions="20" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count basic-agent</metric>
+    <metric>count expert-agent</metric>
+    <enumeratedValueSet variable="n-shelter">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="yellow-food-percentage">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-basic-agent">
+      <value value="10"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="n-expert-agent">
+      <value value="0"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="green-food-percentage">
+      <value value="7"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="trap-percentage">
+      <value value="0"/>
     </enumeratedValueSet>
   </experiment>
 </experiments>
