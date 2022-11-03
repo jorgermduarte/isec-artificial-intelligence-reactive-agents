@@ -987,7 +987,7 @@ green-food-percentage
 green-food-percentage
 0
 15
-7.0
+15.0
 1
 1
 NIL
@@ -1002,7 +1002,7 @@ yellow-food-percentage
 yellow-food-percentage
 0
 5
-2.5
+5.0
 0.1
 1
 NIL
@@ -1017,7 +1017,7 @@ n-shelter
 n-shelter
 0
 10
-5.0
+9.0
 1
 1
 NIL
@@ -1032,7 +1032,7 @@ trap-percentage
 trap-percentage
 0
 2
-0.0
+0.7
 0.1
 1
 NIL
@@ -1045,7 +1045,7 @@ BUTTON
 450
 Go
 go
-NIL
+T
 1
 T
 OBSERVER
